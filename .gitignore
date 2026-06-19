@@ -1,0 +1,14 @@
+## Сборка .NET
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+*.user
+*.suo
+
+## Visual Studio
+.vs/
+*.vsidx
+
+## Прочее
+*.log

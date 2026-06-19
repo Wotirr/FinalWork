@@ -1,0 +1,124 @@
+﻿<Window x:Class="KnizhnyMir.Desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:helpers="clr-namespace:KnizhnyMir.Desktop.Helpers"
+        Title="Книжный мир — Каталог товаров" Height="720" Width="1000"
+        MinHeight="500" MinWidth="800"
+        Icon="/Resources/icon.ico"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <helpers:PhotoToImageConverter x:Key="PhotoConverter" />
+    </Window.Resources>
+
+    <DockPanel>
+        <!-- Шапка с логотипом и кнопками -->
+        <Border DockPanel.Dock="Top" Background="{StaticResource SecondaryBackgroundBrush}" Padding="12,8">
+            <DockPanel>
+                <Image Source="/Resources/logo.png" Height="44" Stretch="Uniform" DockPanel.Dock="Left" />
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock x:Name="UserNameText" VerticalAlignment="Center" Margin="0,0,12,0"
+                               FontWeight="SemiBold" Foreground="#FF4A3000" />
+                    <Button x:Name="ManageOrdersButton" Content="Заказы" Click="ManageOrders_Click"
+                            Visibility="Collapsed" />
+                    <Button x:Name="CartButton" Content="Корзина" Click="Cart_Click" Visibility="Collapsed" />
+                    <Button x:Name="LoginButton" Content="Войти" Click="Login_Click" />
+                    <Button x:Name="LogoutButton" Content="Выйти" Click="Logout_Click" Visibility="Collapsed" />
+                </StackPanel>
+                <TextBlock Text="Книжный мир" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"
+                           Margin="14,0,0,0" Foreground="#FF4A3000" />
+            </DockPanel>
+        </Border>
+
+        <!-- Панель поиска, фильтрации и сортировки -->
+        <Border DockPanel.Dock="Top" Background="#FFFBF4E2" Padding="12,8">
+            <WrapPanel>
+                <TextBlock Text="Поиск по названию:" VerticalAlignment="Center" Margin="0,0,4,0" />
+                <TextBox x:Name="SearchBox" Width="190" Margin="0,0,16,4" TextChanged="Filter_Changed" />
+
+                <TextBlock Text="Производитель:" VerticalAlignment="Center" Margin="0,0,4,0" />
+                <ComboBox x:Name="ManufacturerBox" Width="190" Margin="0,0,16,4"
+                          DisplayMemberPath="Name" SelectionChanged="Filter_Changed" />
+
+                <TextBlock Text="Цена от:" VerticalAlignment="Center" Margin="0,0,4,0" />
+                <TextBox x:Name="MinPriceBox" Width="70" Margin="0,0,8,4" TextChanged="Filter_Changed" />
+                <TextBlock Text="до:" VerticalAlignment="Center" Margin="0,0,4,0" />
+                <TextBox x:Name="MaxPriceBox" Width="70" Margin="0,0,16,4" TextChanged="Filter_Changed" />
+
+                <TextBlock Text="Сортировка:" VerticalAlignment="Center" Margin="0,0,4,0" />
+                <ComboBox x:Name="SortFieldBox" Width="160" Margin="0,0,8,4" SelectionChanged="Filter_Changed">
+                    <ComboBoxItem Content="По наименованию" IsSelected="True" />
+                    <ComboBoxItem Content="По цене" />
+                </ComboBox>
+                <ComboBox x:Name="SortOrderBox" Width="150" Margin="0,0,8,4" SelectionChanged="Filter_Changed">
+                    <ComboBoxItem Content="По возрастанию" IsSelected="True" />
+                    <ComboBoxItem Content="По убыванию" />
+                </ComboBox>
+            </WrapPanel>
+        </Border>
+
+        <!-- Счётчик выведенных записей -->
+        <Border DockPanel.Dock="Top" Padding="12,4" Background="#FFFBF4E2">
+            <TextBlock x:Name="CountText" FontWeight="SemiBold" Foreground="#FF4A3000" />
+        </Border>
+
+        <!-- Список товаров -->
+        <Grid>
+            <ListBox x:Name="ProductsList" BorderThickness="0" Margin="6"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     HorizontalContentAlignment="Stretch">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="Focusable" Value="False" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="#FFE0CFA0" BorderThickness="1" CornerRadius="6"
+                                Margin="4" Padding="10" Background="White">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Image Grid.Column="0" Width="110" Height="150" Stretch="Uniform"
+                                       VerticalAlignment="Top"
+                                       Source="{Binding Photo, Converter={StaticResource PhotoConverter}}" />
+
+                                <StackPanel Grid.Column="1" Margin="14,0">
+                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="16"
+                                               TextWrapping="Wrap" />
+                                    <TextBlock Text="{Binding Description}" TextWrapping="Wrap"
+                                               MaxHeight="60" TextTrimming="CharacterEllipsis"
+                                               Foreground="#FF555555" Margin="0,6" />
+                                    <TextBlock>
+                                        <Run Text="Производитель: " FontWeight="SemiBold" />
+                                        <Run Text="{Binding ManufacturerName}" />
+                                    </TextBlock>
+                                    <TextBlock Margin="0,2,0,0">
+                                        <Run Text="Цена: " FontWeight="SemiBold" />
+                                        <Run Text="{Binding Price, Mode=OneWay, StringFormat={}{0:N2} ₽}"
+                                             FontWeight="Bold" />
+                                    </TextBlock>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2" VerticalAlignment="Center"
+                                            HorizontalAlignment="Right">
+                                    <Button Content="Заказать" Click="Order_Click"
+                                            CommandParameter="{Binding}" HorizontalAlignment="Right" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <TextBlock x:Name="EmptyMessage" Text="Товары не найдены. Измените условия поиска или фильтрации."
+                       HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"
+                       Foreground="#FF999999" Visibility="Collapsed" />
+        </Grid>
+    </DockPanel>
+</Window>

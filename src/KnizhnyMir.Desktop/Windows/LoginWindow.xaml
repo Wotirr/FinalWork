@@ -1,0 +1,37 @@
+﻿<Window x:Class="KnizhnyMir.Desktop.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Книжный мир — Вход в систему" Height="280" Width="380"
+        Icon="/Resources/icon.ico"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Вход в систему" FontSize="20" FontWeight="Bold"
+                   Foreground="#FF4A3000" Margin="0,0,0,14" />
+
+        <TextBlock Grid.Row="1" Text="Логин:" Margin="0,0,0,2" />
+        <TextBox Grid.Row="2" x:Name="LoginBox" Margin="0,0,0,10" TabIndex="0" />
+
+        <TextBlock Grid.Row="3" Text="Пароль:" Margin="0,0,0,2" />
+        <PasswordBox Grid.Row="4" x:Name="PasswordBox" Margin="0,0,0,10" TabIndex="1"
+                     Padding="4,3" />
+
+        <TextBlock Grid.Row="5" x:Name="ErrorText" Foreground="#FFB00020" TextWrapping="Wrap"
+                   VerticalAlignment="Top" />
+
+        <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Войти" Click="Login_Click" IsDefault="True" Width="90" TabIndex="2" />
+            <Button Content="Отмена" Click="Cancel_Click" IsCancel="True" Width="90"
+                    Background="#FF9E9E9E" TabIndex="3" />
+        </StackPanel>
+    </Grid>
+</Window>
