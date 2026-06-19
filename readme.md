@@ -15,7 +15,7 @@
 ## Структура решения
 
 ```
-Final1101/
+FinalWork/
 ├─ KnizhnyMir.sln                  — решение Visual Studio
 ├─ src/
 │  ├─ KnizhnyMir.DataAccess/       — слой доступа к данным (модели, репозитории, сервисы)
@@ -26,7 +26,25 @@ Final1101/
 └─ resources/import/               — исходные файлы заказчика (Excel, изображения)
 ```
 
+## Запуск приложения
 
+Требуется **.NET 8 SDK**.
+
+Настольное приложение (главный модуль — терминал):
+
+```
+dotnet run --project src/KnizhnyMir.Desktop
+```
+
+Веб-API (после запуска на стартовой странице открывается Swagger):
+
+```
+dotnet run --project src/KnizhnyMir.Api
+```
+
+Приложение подключается к серверу MS SQL. Параметры подключения: сервер `mssql`, база `ispp4110`, логин `ispp4110`, пароль `4110`
+(заданы в `KnizhnyMir.DataAccess/DatabaseConfig.cs`).
+Перед первым запуском выполните скрипт `database/db.sql` на сервере MS SQL.
 
 ## Реализованные задания
 
