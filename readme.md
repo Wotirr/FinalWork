@@ -15,7 +15,7 @@
 ## Структура решения
 
 ```
-FinalWork/
+Final0101/
 ├─ KnizhnyMir.sln                  — решение Visual Studio
 ├─ src/
 │  ├─ KnizhnyMir.DataAccess/       — слой доступа к данным (модели, репозитории, сервисы)
